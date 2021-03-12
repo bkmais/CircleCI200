@@ -5,6 +5,7 @@ orbs:
   jira: circleci/jira@1.2.2
 jobs: 
 
+
   test_1:
     docker:
       - image: cimg/node:12.16
@@ -54,7 +55,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json"}}
 
-          run: npm test
+      - run: npm test
 
 
 workflows:
@@ -65,9 +66,7 @@ workflows:
       - build:
           post-steps:
             - jira/notify
-      - cache-dependencies:
-          requires:
-            - build
+
             
       - test_1:
           requires:
