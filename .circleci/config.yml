@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> a249842d290ce71b7e7a96173cdb3adb3694b198
 version: 2.1
 
 jobs: 
@@ -21,4 +25,8 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json"}}
 
+<<<<<<< HEAD
           run: npm test
+=======
+          run: npm test
+>>>>>>> a249842d290ce71b7e7a96173cdb3adb3694b198
