@@ -1,10 +1,38 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> a249842d290ce71b7e7a96173cdb3adb3694b198
 version: 2.1
 
+orbs:
+  node: circleci/node@4.1.0
+  jira: circleci/jira@1.2.2
 jobs: 
+
+  test_1:
+    docker:
+      - image: cimg/node:12.16
+    steps:
+      - checkout
+      - node/install-packages: 
+          override-ci-command: npm install
+      - run:
+          name: Install unitjs
+          command: npm install unit.js
+      - run:   
+          command: npm install --save-dev jest
+      - run:
+          command: npm run test
+
+  test_2:
+    docker:
+      - image: cimg/node:12.16
+    steps:
+      - checkout
+      - node/install-packages:
+          
+          override-ci-command: npm install
+      - run:
+          name: Install jest
+          command: npm install --save-dev jest
+      - run:   
+
 
   build:
     docker:
@@ -25,8 +53,25 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json"}}
 
-<<<<<<< HEAD
           run: npm test
-=======
-          run: npm test
->>>>>>> a249842d290ce71b7e7a96173cdb3adb3694b198
+
+
+workflows:
+  version: 2.1
+
+  build-test:
+    jobs:
+      - build:
+          post-steps:
+            - jira/notify
+      - cache-dependencies:
+          requires:
+            - build
+            
+      - test_1:
+          requires:
+            - build
+
+      - test_2:
+          requires:
+            - build
