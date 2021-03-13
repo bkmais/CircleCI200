@@ -72,6 +72,3 @@ workflows:
           requires:
             - build
 
-      - test_2:
-          requires:
-            - build
